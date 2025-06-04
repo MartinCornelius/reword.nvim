@@ -4,6 +4,14 @@
 
 > No GUI pop-ups. No switching tabs. Just language tools where you write.
 
+### Synonym popup
+Here’s how the plugin shows synonyms for the word **explanation**:
+![image](https://github.com/user-attachments/assets/addfed4f-00fa-466b-866a-55175041d71b)
+
+### Definition popup
+Definition view for the word **explanation**:
+![image](https://github.com/user-attachments/assets/00761257-74c2-4cd6-8301-48ac71bccada)
+
 ---
 
 ## Features
