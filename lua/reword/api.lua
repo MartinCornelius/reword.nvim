@@ -1,14 +1,26 @@
+-- Fetches synonyms using the Datamuse API
+-- See: https://www.datamuse.com/api/
+
 local M = {}
 
 local curl = vim.fn.jobstart and vim.fn.system or os.execute
+local cache = require("reword.cache")
 
 function M.get_synonyms(word, callback)
-  local url = "https://api.datamuse.com/words?max=12&ml=" .. word
+  local cached = cache.get(word)
+  if cached then
+    callback(cached)
+    return
+  end
+
+  local url = "https://api.datamuse.com/words?rel_syn=" .. word
 
   vim.fn.jobstart({ "curl", "-s", url }, {
     stdout_buffered = true,
 
     on_stdout = function(_, data)
+      if not data then return callback({}) end
+
       local ok, json = pcall(vim.fn.json_decode, table.concat(data, ""))
       if not ok or not json then
         callback({})
@@ -26,7 +38,7 @@ function M.get_synonyms(word, callback)
 
     on_stderr = function(_, err)
       callback({})
-    end
+    end,
   })
 end
 

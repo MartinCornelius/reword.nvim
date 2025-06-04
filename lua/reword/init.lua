@@ -15,7 +15,7 @@ function M.reword_word()
       vim.notify("No synonyms found", vim.log.levels.INFO)
       return
     end
-    ui.select_synonym(word, synonyms)
+    ui.display_synonyms(word, synonyms)
   end)
 end
 

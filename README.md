@@ -16,3 +16,9 @@ Example using [lazy.nvim](https://github.com/folke/lazy.nvim)
 ## Usage
 For now, hover over a word in Neovim and press `<leader>rw` to bring up synonyms.
 
+
+## Acknowledgments
+This plugin uses the [Datamuse API](https://www.datamuse.com/api/) to fetch synonyms and related words.
+
+> The Datamuse API is a free word-finding query service for developers.  
+> Big thanks to the team behind it for making such a useful tool publicly available.
