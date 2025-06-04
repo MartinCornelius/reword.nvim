@@ -1,9 +1,5 @@
--- Fetches synonyms using the Datamuse API
--- See: https://www.datamuse.com/api/
-
 local M = {}
 
-local curl = vim.fn.jobstart and vim.fn.system or os.execute
 local cache = require("reword.cache")
 
 function M.get_synonyms(word, callback)
@@ -13,32 +9,56 @@ function M.get_synonyms(word, callback)
     return
   end
 
-  local url = "https://api.datamuse.com/words?rel_syn=" .. word
+  local url = "https://api.dictionaryapi.dev/api/v2/entries/en/" .. word
 
   vim.fn.jobstart({ "curl", "-s", url }, {
     stdout_buffered = true,
 
     on_stdout = function(_, data)
-      if not data then return callback({}) end
-
       local ok, json = pcall(vim.fn.json_decode, table.concat(data, ""))
-      if not ok or not json then
+      if not ok or not json or type(json) ~= "table" then
         callback({})
         return
       end
 
-      local synonyms = {}
+      local synonyms_set = {}
+
       for _, entry in ipairs(json) do
-        if entry.word then
-          table.insert(synonyms, entry.word)
+        if entry.meanings then
+          for _, meaning in ipairs(entry.meanings) do
+            -- Top-level synonyms under the meaning
+            if meaning.synonyms then
+              for _, syn in ipairs(meaning.synonyms) do
+                synonyms_set[syn] = true
+              end
+            end
+
+            for _, def in ipairs(meaning.definitions or {}) do
+              -- Per-definition synonyms
+              if def.synonyms then
+                for _, syn in ipairs(def.synonyms) do
+                  synonyms_set[syn] = true
+                end
+              end
+            end
+          end
         end
       end
+
+      local synonyms = {}
+      for syn in pairs(synonyms_set) do
+        table.insert(synonyms, syn)
+      end
+
+      table.sort(synonyms) -- Optional: sort alphabetically
+
+      cache.set(word, synonyms)
       callback(synonyms)
     end,
 
-    on_stderr = function(_, err)
+    on_stderr = function(_, _)
       callback({})
-    end,
+    end
   })
 end
 
