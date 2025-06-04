@@ -1,23 +1,43 @@
 # reword.nvim
-A lightweight Neovim plugin to quickly find and swap synonyms while writing - without ever leaving Neovim.
+
+**reword.nvim** is a lightweight Neovim plugin for writers, developers, and note-takers who want fast, in-editor synonym and definition lookup — without breaking flow.
+
+> No GUI pop-ups. No switching tabs. Just language tools where you write.
+
+---
+
+## Features
+
+- Quickly find synonyms or definitions for any word under the cursor
+- Displays results in a floating window (non-intrusive)
+- Uses [Free Dictionary API](https://dictionaryapi.dev/) — no API key required
+
+---
 
 ## Requirements
+
 - Neovim `0.8+`
-- Internet connection (for now - local caching coming)
+- Internet connection (temporarily required)
+
+---
 
 ## Installation
-Just like any other plugin. 
 
-Example using [lazy.nvim](https://github.com/folke/lazy.nvim)
+Using [lazy.nvim](https://github.com/folke/lazy.nvim):
+
 ```lua
-{ 'martincornelius/reword.nvim' }
+{ "martincornelius/reword.nvim" }
 ```
 
-## Usage
-For now, hover over a word in Neovim and press `<leader>rw` to bring up synonyms.
+---
 
+## Usage
+| Keybinding   | Action           |
+| ------------ | ---------------- |
+| `<leader>rw` | Show synonyms    |
+| `<leader>rd` | Show definitions |
+
+---
 
 ## Acknowledgments
-This plugin uses the [Free Dictionary API](https://dictionaryapi.dev/) to fetch synonyms and related words.
-
-- 
+This plugin uses the free [Free Dictionary API](https://dictionaryapi.dev/) for definitions and synonyms.
