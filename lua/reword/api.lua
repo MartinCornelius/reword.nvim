@@ -3,7 +3,7 @@ local M = {}
 local cache = require("reword.cache")
 
 function M.get_synonyms(word, callback)
-  local cached = cache.get(word)
+  local cached = cache.get_synonyms(word)
   if cached then
     callback(cached)
     return
@@ -52,7 +52,7 @@ function M.get_synonyms(word, callback)
 
       table.sort(synonyms) -- Optional: sort alphabetically
 
-      cache.set(word, synonyms)
+      cache.set_synonyms(word, synonyms)
       callback(synonyms)
     end,
 
@@ -63,7 +63,7 @@ function M.get_synonyms(word, callback)
 end
 
 function M.get_definitions(word, callback)
-  local cached = cache.get("def:" .. word)
+  local cached = cache.get_definitions(word)
   if cached then
     callback(cached)
     return
@@ -97,7 +97,7 @@ function M.get_definitions(word, callback)
         end
       end
 
-      cache.set("def:" .. word, definitions)
+      cache.set_definitions(word, definitions)
       callback(definitions)
     end,
 
