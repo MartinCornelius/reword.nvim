@@ -26,6 +26,7 @@ Definition view for the word **explanation**:
 
 - Neovim `0.8+`
 - Internet connection (temporarily required)
+- [curl](https://curl.se/) available in your system path
 
 ---
 
@@ -34,7 +35,14 @@ Definition view for the word **explanation**:
 Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 
 ```lua
-{ "martincornelius/reword.nvim" }
+{ 
+    "martincornelius/reword.nvim",
+    config = function()
+        require("reword").setup({
+            persist = true, -- Enable persistent local cache (default: true)
+        })
+    end
+}
 ```
 
 ---
@@ -44,6 +52,30 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 | ------------ | ---------------- |
 | `<leader>rw` | Show synonyms    |
 | `<leader>rd` | Show definitions |
+
+The follow commands are also available:
+- `:Reword` Show synonyms
+- `:RewordDefine` Show definitions
+- `:RewordClearCache` Clear the synonym/definition cache
+
+---
+
+## Caching
+To improve performance and reduce repeated network API calls:
+- Results are cached **in memory** by default
+- If `persist = true` (default), cache is also stored **to disk** (across sessions)
+- You can **disable persistence** via setup:
+```lua
+require("reword").setup({ persist = false })
+```
+
+### Clearing the cache
+If you want to clear the cache (memory + disk):
+```lua
+:RewordClearCache
+```
+
+or you can manually delete the file `reword_cache.json` inside your neovim data folder.
 
 ---
 
