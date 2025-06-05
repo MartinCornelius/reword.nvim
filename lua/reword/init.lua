@@ -3,6 +3,10 @@ local M = {}
 local api = require("reword.api")
 local ui = require("reword.ui")
 
+function M.setup(opts)
+  require("reword.cache").setup(opts or {})
+end
+
 function M.reword_word()
   local word = vim.fn.expand("<cword>")
   if not word or word == "" then
